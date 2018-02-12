@@ -13,10 +13,13 @@ var time = 0,
     acumDelta = 0;
 
 //images references
-var playerImg, coinImg, floorImg;
+var player1Img, player2Img, coinImg, floorImg;
+
+var player1, player2;
+
 
 var coins = [];
-var floors = [];
+//var floors = [];
 
 function Init ()
 {
@@ -41,12 +44,16 @@ function Init ()
         coinImg.src = "./media/coin.png";
 
         floorImg = new Image();
-        floorImg.src = "./media/floor.png";
+        floorImg.src = "./media/grass.png";
 
-        playerImg = new Image();
-        playerImg.src = "./media/car.png";
-        playerImg.onload = Start();
-
+        player1Img = new Image();
+        player1Img.src = "./media/car.png";
+        
+        player2Img = new Image();
+        player2Img.src = "./media/car2.png";
+        
+        
+        player2Img.onload = Start();
         
     }
 }
@@ -62,16 +69,23 @@ function Start(){
     PreparePhysics(ctx);
 
 
-    var floor1 = NewFloor({x: 120, y: 100, width: 1.0, height: 0.2})
+    var floor1 = NewFloor({x: 300, y: 20, width: 1.0, height: 0.2})
     floor1.Start();
-    floors.push(floor1);
+    //floors.push(floor1);
 
-    player.Start();
+    //player.Start();
 
     var coin = NewCoin({x: 300, y: 160, score: 50});
     coin.Start();
     coins.push(coin);
 
+    this.player1 = NewPlayer(200, 200, player1Img, "player1");
+    this.player1.Start();
+    
+    this.player2 = NewPlayer(400, 200, player2Img, "player2");
+    
+    this.player2.Start();
+    this.player2.moveLeft = true;
         // first call to the game loop
     Loop();
 
@@ -116,20 +130,35 @@ function Update ()
     world.Step(deltaTime, 8, 3);
     world.ClearForces();
 
+    
+    
     // player logic
     if(input.isKeyPressed(KEY_LEFT)){
-        player.moveLeft = true;
+        player2.moveLeft = true;
     }
 
     if(input.isKeyPressed(KEY_RIGHT)){
-        player.moveRight = true;
+        player2.moveRight = true;
     }
 
     if(input.isKeyPressed(KEY_UP)){
-        player.Jump();
+        player2.Jump();
+    }
+    
+    if(input.isKeyPressed(KEY_D)){
+        player1.moveRight = true;
+    }
+    
+    if(input.isKeyPressed(KEY_A)){
+        player1.moveLeft = true;
+    }
+    
+    if(input.isKeyPressed(KEY_W)){
+        player1.Jump();
     }
 
-    player.Update(deltaTime);
+    player1.Update(deltaTime);
+    player2.Update(deltaTime);
 
 
     //Update Coins
@@ -156,12 +185,13 @@ function Draw ()
     // draw the world
     DrawWorld(world);
 
-    for(var i = 0; i<floors.length; i++){
+    /*for(var i = 0; i<floors.length; i++){
         floors[i].Draw(ctx);
-    }
+    }*/
 
     //Draw the player
-    player.Draw(ctx);
+    player1.Draw(ctx);
+    player2.Draw(ctx);
 
     //Draw coins
     for(var i = 0; i<coins.length; i++){
@@ -171,7 +201,7 @@ function Draw ()
     //Draw Score
     ctx.fillStyle = "black";
     ctx.font = "20px Comic Sans MS";
-    ctx.fillText('Score: ' + player.score, 680, 24);
+    ctx.fillText('Score: ' + player1.score + " - " + player2.score, 650, 24);
 
 
     // draw the FPS

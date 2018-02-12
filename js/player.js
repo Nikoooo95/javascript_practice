@@ -1,9 +1,10 @@
 
-var player = {
-	type: 'player',
-	position:{x: 200, y: 200},
-	width: 1.5,
-	height: 1.1,
+function NewPlayer(x, y, image, type) {
+return {
+	type: type,
+	position:{x: x, y: y},
+	width: 0.75,
+	height: 0.55,
 
 
 	isGoingLeft: false,
@@ -45,8 +46,8 @@ var player = {
 		Draw: function(ctx){
 			ctx.drawImage(this.img, this.actualX, this.actualY, 
 				this.frameWidth, this.frameHeight, 
-				-this.frameWidth/2, -this.frameHeight/2,
-				this.frameWidth, this.frameHeight);
+				-this.frameWidth/4, -this.frameHeight/4,
+				this.frameWidth/2, this.frameHeight/2);
 		}
 	},
 
@@ -54,7 +55,7 @@ var player = {
 		density: 1,
 		fixedRotation: true,
 		linearDamping: 1,
-		user_data: player,
+		user_data: player1,
 		type: b2Body.b2_dynamicBody,
 		restitution: 0.0
 	},
@@ -62,7 +63,7 @@ var player = {
 	body: null,
 
 	Start: function(){
-		this.animation.img = playerImg;
+		this.animation.img = image;
 
 		this.body = CreateBox(world, 
 			this.position.x / scale, this.position.y / scale,
@@ -127,7 +128,13 @@ var player = {
 			return false;
 		}
 		this.moveUp = true;
-	}
+	},
+    
+    Flip: function(){
+        ctx.scale(-1, 1);
+    }
+    
 
 
+}
 }

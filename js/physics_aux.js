@@ -144,12 +144,22 @@ function OnContactDetected (contact)
         typeof(a.type) !== 'undefined' &&
         typeof(b.type) !== 'undefined'){
         console.log("Contacto! " + a.type + " + " + b.type);
-        if((a.type == "player" && b.type == "coin") ||
-            (b.type == "player" && a.type == "coin")){
+        if((a.type == "player1" && b.type == "coin") ||
+            (b.type == "player1" && a.type == "coin")){
 
             //Collect
+            console.log("Contacto! " + a.type + " + " + b.type);
             var coin = (a.type == "coin") ? a : b;
-            player.score += coin.score;
+            player1.score += coin.score;
+
+            //Delete
+            coin.toDelete = true;
+        }else if((a.type == "player2" && b.type == "coin") ||
+            (b.type == "player2" && a.type == "coin")){
+            //Collect
+            console.log("Contacto! " + a.type + " + " + b.type);
+            var coin = (a.type == "coin") ? a : b;
+            player2.score += coin.score;
 
             //Delete
             coin.toDelete = true;

@@ -41,7 +41,7 @@ function NewCoin(options) {
 			density: 10,
 			fixedRotation: true,
 			linearDamping: 9,
-			type: b2Body.b2_kinematicBody
+			type: b2Body.b2_dynamicBody
 		},
 
 		body: null,
