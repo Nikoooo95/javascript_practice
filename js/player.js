@@ -128,11 +128,8 @@ return {
 			return false;
 		}
 		this.moveUp = true;
-	},
-    
-    Flip: function(){
-        ctx.scale(-1, 1);
-    }
+	}
+
     
 
 

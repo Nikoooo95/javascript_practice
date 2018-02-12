@@ -13,9 +13,9 @@ var time = 0,
     acumDelta = 0;
 
 //images references
-var player1Img, player2Img, coinImg, floorImg;
+var player1Img, player2Img, coinImg, floorImg, backgroundImg;
 
-var player1, player2;
+var player1, player2, floor, background1;
 
 
 var coins = [];
@@ -40,6 +40,9 @@ function Init ()
     {
         ctx = canvas.getContext('2d');
 
+        backgroundImg = new Image();
+        backgroundImg.src = "./media/background1.png";
+        
         coinImg = new Image();
         coinImg.src = "./media/coin.png";
 
@@ -67,10 +70,11 @@ function Start(){
 
 
     PreparePhysics(ctx);
-
-
-    var floor1 = NewFloor({x: 300, y: 20, width: 1.0, height: 0.2})
-    floor1.Start();
+this.background1 = NewBackground({x: 0, y:0, img: backgroundImg});
+this.background1.Start();
+    
+    this.floor = NewFloor({x: 300, y: 20, width: 5.0, height: 0.2})
+    this.floor.Start();
     //floors.push(floor1);
 
     //player.Start();
@@ -79,11 +83,12 @@ function Start(){
     coin.Start();
     coins.push(coin);
 
+    
+    
     this.player1 = NewPlayer(200, 200, player1Img, "player1");
     this.player1.Start();
     
-    this.player2 = NewPlayer(400, 200, player2Img, "player2");
-    
+    this.player2 = NewPlayer(500, 200, player2Img, "player2");
     this.player2.Start();
     this.player2.moveLeft = true;
         // first call to the game loop
@@ -189,6 +194,8 @@ function Draw ()
         floors[i].Draw(ctx);
     }*/
 
+    background1.Draw(ctx);
+    floor.Draw(ctx);
     //Draw the player
     player1.Draw(ctx);
     player2.Draw(ctx);

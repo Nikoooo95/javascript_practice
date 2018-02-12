@@ -153,8 +153,10 @@ function OnContactDetected (contact)
             player1.score += coin.score;
 
             //Delete
-            coin.toDelete = true;
-        }else if((a.type == "player2" && b.type == "coin") ||
+            //coin.toDelete = true;
+        }
+        
+        if((a.type == "player2" && b.type == "coin") ||
             (b.type == "player2" && a.type == "coin")){
             //Collect
             console.log("Contacto! " + a.type + " + " + b.type);
@@ -162,7 +164,7 @@ function OnContactDetected (contact)
             player2.score += coin.score;
 
             //Delete
-            coin.toDelete = true;
+            //coin.toDelete = true;
         }
     }
 }

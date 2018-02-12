@@ -11,14 +11,14 @@ function NewFloor (options) {
 		physicsInfo: {
 			density: 10,
 			fixedRotation: true,
-			type: b2Body.b2_kinematicBody
+			type: b2Body.b2_staticBody
 		},
 
 		body: null,
 
 		Start: function(){
 			this.body = CreateBox(world, this.position.x/scale, this.position.y / scale,
-				this.width, this.height, this.physicsInfo);
+				this.width, this.height/10, this.physicsInfo);
 			this.body.SetUserData(this);
 		},
 

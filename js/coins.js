@@ -38,16 +38,19 @@ function NewCoin(options) {
 		},
 
 		physicsInfo: {
-			density: 10,
+			density: 1.0,
+            friction: 0.5,
 			fixedRotation: true,
-			linearDamping: 9,
+			linearDamping: 0.0,
+            angularDamping: 0.0,
+            restitution: 0.5,
 			type: b2Body.b2_dynamicBody
 		},
 
 		body: null,
 
 		Start: function(){
-			this.body = CreateBox(world, this.position.x/scale, this.position.y / scale,
+			this.body = CreateBall(world, this.position.x/scale, this.position.y / scale,
 				this.width, this.height, this.physicsInfo);
 			this.body.SetUserData(this);
 		},
