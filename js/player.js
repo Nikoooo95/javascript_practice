@@ -2,8 +2,8 @@
 var player = {
 	type: 'player',
 	position:{x: 200, y: 200},
-	width: 0.24,
-	height: 0.4,
+	width: 1.5,
+	height: 1.1,
 
 
 	isGoingLeft: false,
@@ -19,22 +19,23 @@ var player = {
 
 	canJump: false,
 
+
 	score: 0,
 
 	animation:{
 		img: null,
 		timePerFrame: 1/24,
 		currentFrametime: 0,
-		frameWidth: 74.29,
-		frameHeight: 84.75,
+		frameWidth: 317,
+		frameHeight: 214,
 		actualX: 0,
-		actualY: 340,
+		actualY: 0,
 
 		Update: function(deltaTime){
 			this.currentFrametime += deltaTime;
 			if(this.currentFrametime >= this.timePerFrame){
 				this.actualX+=this.frameWidth;
-				if(this.actualX > 422){
+				if(this.actualX > 634){
 					this.actualX = 0;
 				}
 				this.currentFrametime = 0.0;

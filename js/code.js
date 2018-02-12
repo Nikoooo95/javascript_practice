@@ -44,7 +44,7 @@ function Init ()
         floorImg.src = "./media/floor.png";
 
         playerImg = new Image();
-        playerImg.src = "./media/PruebaPlater.png";
+        playerImg.src = "./media/car.png";
         playerImg.onload = Start();
 
         
