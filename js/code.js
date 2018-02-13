@@ -13,9 +13,9 @@ var time = 0,
     acumDelta = 0;
 
 //images references
-var player1Img, player2Img, coinImg, floorImg, backgroundImg;
+var player1Img, player2Img, coinImg, floorImg, background1Img, background2Img;
 
-var player1, player2, floor, background1;
+var player1, player2, floor, background1, background2;
 
 
 var coins = [];
@@ -40,8 +40,10 @@ function Init ()
     {
         ctx = canvas.getContext('2d');
 
-        backgroundImg = new Image();
-        backgroundImg.src = "./media/background1.png";
+        background1Img = new Image();
+        background1Img.src = "./media/background1.png";
+        background2Img = new Image();
+        background2Img.src = "./media/background2.png";
         
         coinImg = new Image();
         coinImg.src = "./media/coin.png";
@@ -70,8 +72,9 @@ function Start(){
 
 
     PreparePhysics(ctx);
-this.background1 = NewBackground({x: 0, y:0, img: backgroundImg});
-this.background1.Start();
+this.background1 = NewBackground({x: 0, y:0, width:863, height:888, img: background1Img, type: 'background1'});
+    this.background2 = NewBackground({x: 0, y: 0, width:800, height:450, img: background2Img, type: 'background2'});
+//this.background1.Start();
     
     this.floor = NewFloor({x: 300, y: 20, width: 5.0, height: 0.2})
     this.floor.Start();
@@ -134,7 +137,7 @@ function Update ()
     // Step(timestep , velocity iterations, position iterations)
     world.Step(deltaTime, 8, 3);
     world.ClearForces();
-
+    
     
     
     // player logic
@@ -162,6 +165,7 @@ function Update ()
         player1.Jump();
     }
 
+    background1.Update(deltaTime);
     player1.Update(deltaTime);
     player2.Update(deltaTime);
 
@@ -195,6 +199,11 @@ function Draw ()
     }*/
 
     background1.Draw(ctx);
+    
+    ctx.drawImage(background2.img, 0, 0, background2.width, background2.height);
+    //background2.Draw(ctx);
+    ctx.restore();
+
     floor.Draw(ctx);
     //Draw the player
     player1.Draw(ctx);

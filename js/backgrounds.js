@@ -1,50 +1,30 @@
 function NewBackground (options) {
 	return {
-		type: 'background',
-		width: 800.0,
-		height: 450.0,
+		type: options.type,
+		width: options.width,
+		height: options.height,
 		position: {x: options.x, y: options.y},
 		imgScale: 0.5,
-        img: backgroundImg,
+        img: options.img,
+        angle: 0,
         
-		animation:{
-			img: options.img,
-			timePerFrame: 1/24,
-			currentFrametime: 0,
-			frameWidth: 100,
-			frameHeight: 100,
-			actualX: 0,
-
-			Draw: function(ctx){
-				ctx.drawImage(this.img, this.actualX, 0, 
-				this.frameWidth, this.frameHeight, 
-				-this.frameWidth/2, -this.frameHeight/2,
-				this.frameWidth, this.frameHeight);
-			}
-		},
-
-		Start: function(){
-			this.body = CreateBox(world, this.position.x/scale, this.position.y / scale,
-				this.width, this.height, this.physicsInfo);
-			this.body.SetUserData(this);
-		},
-
 		Update: function(deltaTime){
-			
+			if(this.type == 'background1'){
+                this.angle = (this.angle + 1) % 360;
+            }
 		},
 
 		Draw: function(ctx){
-			var bodyPosition = this.body.GetPosition();
-			var posX = bodyPosition.x * scale;
-			var posY = Math.abs((bodyPosition.y * scale) - ctx.canvas.height);
-			
-
-			
-			ctx.drawImage(this.img,
-				0,
-				0,
-				this.width, this.height);
+            ctx.save();
+            //ctx.translate(450, 225);
+           // ctx.translate(450, 225);
+            ctx.rotate(this.angle * Math.PI /180);
+            ctx.translate(-450, -225);
+			ctx.drawImage(this.img, 0, 0, this.width, this.height, -31.5, -219, this.width, this.height);
+            ctx.rotate(-this.angle * Math.PI /180);
 			ctx.restore();
-		}
+		},
+        
+        
 	}
 }
