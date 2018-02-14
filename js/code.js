@@ -13,9 +13,9 @@ var time = 0,
     acumDelta = 0;
 
 //images references
-var player1Img, player2Img, coinImg, floorImg, background1Img, background2Img;
+var player1Img, player2Img, coinImg, floorImg, background1Img, background2Img, goalImg;
 
-var player1, player2, floor, background1, background2;
+var player1, player2, floor, background1, background2, goalL, goalR;
 
 
 var coins = [];
@@ -45,6 +45,9 @@ function Init ()
         background2Img = new Image();
         background2Img.src = "./media/background2.png";
         
+        goalImg = new Image();
+        goalImg.src = "./media/goal.png";
+        
         coinImg = new Image();
         coinImg.src = "./media/coin.png";
 
@@ -72,8 +75,14 @@ function Start(){
 
 
     PreparePhysics(ctx);
-this.background1 = NewBackground({x: 0, y:0, width:863, height:888, img: background1Img, type: 'background1'});
+this.background1 = NewBackground({x: 0, y:0, width:900, height:900, img: background1Img, type: 'background1'});
     this.background2 = NewBackground({x: 0, y: 0, width:800, height:450, img: background2Img, type: 'background2'});
+    
+    this.goalL = NewGoal({x: 670, y: 200, width: 167, height: 306, img: goalImg, type: 'goalL'});
+    this.goalL.Start();
+     this.goalR = NewGoal({x: -130, y: 200, width: 167, height: 306, img: goalImg, type: 'goalR'});
+    this.goalR.Start();
+    
 //this.background1.Start();
     
     this.floor = NewFloor({x: 300, y: 20, width: 5.0, height: 0.2})
@@ -82,7 +91,7 @@ this.background1 = NewBackground({x: 0, y:0, width:863, height:888, img: backgro
 
     //player.Start();
 
-    var coin = NewCoin({x: 300, y: 160, score: 50});
+    var coin = NewCoin({x: 300, y: 160, score: 1});
     coin.Start();
     coins.push(coin);
 
@@ -201,9 +210,12 @@ function Draw ()
     background1.Draw(ctx);
     
     ctx.drawImage(background2.img, 0, 0, background2.width, background2.height);
+    //ctx.drawImage(goalImg, 0, 0, goalImg.width, goalImg.height,  );
     //background2.Draw(ctx);
     ctx.restore();
 
+    goalL.Draw(ctx);
+    goalR.Draw(ctx);
     floor.Draw(ctx);
     //Draw the player
     player1.Draw(ctx);

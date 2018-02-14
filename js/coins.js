@@ -6,7 +6,7 @@ function NewCoin(options) {
 		position: {x: options.x, y: options.y},
 		imgScale: 0.5,
 
-		score: options.score || 100,
+		score: options.score || 1,
 
 		toDelete: false,
 

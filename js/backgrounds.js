@@ -10,17 +10,17 @@ function NewBackground (options) {
         
 		Update: function(deltaTime){
 			if(this.type == 'background1'){
-                this.angle = (this.angle + 1) % 360;
+                this.angle = (this.angle - 0.05) % 360;
             }
 		},
 
 		Draw: function(ctx){
             ctx.save();
-            //ctx.translate(450, 225);
-           // ctx.translate(450, 225);
+            ctx.translate(400, 218);
+            //ctx.translate(0,0);
             ctx.rotate(this.angle * Math.PI /180);
-            ctx.translate(-450, -225);
-			ctx.drawImage(this.img, 0, 0, this.width, this.height, -31.5, -219, this.width, this.height);
+            ctx.translate(-400, -225);
+			ctx.drawImage(this.img, 0, 0, this.width, this.height, -50,-225, this.width, this.height);
             ctx.rotate(-this.angle * Math.PI /180);
 			ctx.restore();
 		},
