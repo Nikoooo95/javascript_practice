@@ -8,42 +8,16 @@ function NewCoin(options) {
 
 		score: options.score || 1,
 
-		toDelete: false,
-
-		animation:{
-			img: coinImg,
-			timePerFrame: 1/24,
-			currentFrametime: 0,
-			frameWidth: 100,
-			frameHeight: 100,
-			actualX: 0,
-
-			Update: function(deltaTime){
-				this.currentFrametime += deltaTime;
-				if(this.currentFrametime >= this.timePerFrame){
-					this.actualX+=this.frameWidth;
-					if(this.actualX > 999){
-						this.actualX = 0;
-					}
-					this.currentFrametime = 0.0;
-				}
-			},
-
-			Draw: function(ctx){
-				ctx.drawImage(this.img, this.actualX, 0, 
-				this.frameWidth, this.frameHeight, 
-				-this.frameWidth/2, -this.frameHeight/2,
-				this.frameWidth, this.frameHeight);
-			}
-		},
+        isGoal: false,
+        img: options.img,
 
 		physicsInfo: {
-			density: 1.0,
-            friction: 0.5,
+			density: 100000.0,
+            friction: 100000,
 			fixedRotation: true,
-			linearDamping: 0.0,
-            angularDamping: 0.0,
-            restitution: 0.5,
+			linearDamping: 100000.0,
+            angularDamping: 10000.0,
+            restitution: 10000.0,
 			type: b2Body.b2_dynamicBody
 		},
 
@@ -56,17 +30,23 @@ function NewCoin(options) {
 		},
 
 		Update: function(deltaTime){
-			this.animation.Update(deltaTime);
+			//this.animation.Update(deltaTime);
 		},
 
 		Draw: function(ctx){
-			var bodyPosition = this.body.GetPosition();
+           var bodyPosition = this.body.GetPosition();
 			var posX = bodyPosition.x * scale;
 			var posY = Math.abs((bodyPosition.y * scale) - ctx.canvas.height);
+			
 			ctx.save();
+			
 			ctx.translate(posX, posY);
 			ctx.scale(this.imgScale, this.imgScale);
-			this.animation.Draw(ctx);
+			
+			ctx.drawImage(this.img,
+				-this.width * scale*2,
+				-this.height * scale*2,
+				this.width * scale * 4 , this.height * scale * 4 );
 			ctx.restore();
 		}
 	}

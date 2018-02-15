@@ -151,7 +151,7 @@ function OnContactDetected (contact)
             console.log("Contacto! " + a.type + " + " + b.type);
             var coin = (a.type == "coin") ? a : b;
             player2.score += coin.score;
-            ResetGame(coin);
+            coin.isGoal = true;
             //Delete
             //coin.toDelete = true;
         }
@@ -162,7 +162,7 @@ function OnContactDetected (contact)
             console.log("Contacto! " + a.type + " + " + b.type);
             var coin = (a.type == "coin") ? a : b;
             player1.score += coin.score;
-
+            coin.isGoal = true;
             //Delete
             //coin.toDelete = true;
         }

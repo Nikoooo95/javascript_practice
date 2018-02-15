@@ -13,9 +13,9 @@ var time = 0,
     acumDelta = 0;
 
 //images references
-var player1Img, player2Img, coinImg, floorImg, background1Img, background2Img, goalImg;
+var player1Img, player2Img, coinImg, floorImg, background1Img, background2Img, goalImg, ballImg;
 
-var player1, player2, floor, background1, background2, goalL, goalR;
+var player1, player2, floor, background1, background2, goalL, goalR, ball;
 
 
 var coins = [];
@@ -48,8 +48,8 @@ function Init ()
         goalImg = new Image();
         goalImg.src = "./media/goal.png";
         
-        coinImg = new Image();
-        coinImg.src = "./media/coin.png";
+        ballImg = new Image();
+        ballImg.src = "./media/ball.png";
 
         floorImg = new Image();
         floorImg.src = "./media/grass.png";
@@ -75,11 +75,14 @@ function Start(){
 
 
     PreparePhysics(ctx);
-this.background1 = NewBackground({x: 0, y:0, width:900, height:900, img: background1Img, type: 'background1'});
+    
+    this.background1 = NewBackground({x: 0, y:0, width:900, height:900, img: background1Img, type: 'background1'});
+    
     this.background2 = NewBackground({x: 0, y: 0, width:800, height:450, img: background2Img, type: 'background2'});
     
     this.goalL = NewGoal({x: 670, y: 200, width: 167, height: 306, img: goalImg, type: 'goalL'});
     this.goalL.Start();
+    
      this.goalR = NewGoal({x: -130, y: 200, width: 167, height: 306, img: goalImg, type: 'goalR'});
     this.goalR.Start();
     
@@ -91,9 +94,8 @@ this.background1 = NewBackground({x: 0, y:0, width:900, height:900, img: backgro
 
     //player.Start();
 
-    var coin = NewCoin({x: 300, y: 160, score: 1});
-    coin.Start();
-    coins.push(coin);
+    ball = NewCoin({x: 300, y: 160, score: 1, img: ballImg});
+    ball.Start();
 
     
     
@@ -177,15 +179,19 @@ function Update ()
     background1.Update(deltaTime);
     player1.Update(deltaTime);
     player2.Update(deltaTime);
-
+    ball.Update(deltaTime);
 
     //Update Coins
-    for(var i = 0; i<coins.length; i++){
-        coins[i].Update(deltaTime);
-        if(coins[i].toDelete){
-            world.DestroyBody(coins[i].body);
-            coins.splice(i, 1);
-        }
+//    for(var i = 0; i<coins.length; i++){
+//        coins[i].Update(deltaTime);
+//        if(coins[i].toDelete){
+//            world.DestroyBody(coins[i].body);
+//            coins.splice(i, 1);
+//        }
+//    }
+    
+    if(ball.isGoal == true){
+        RestartGoal();
     }
 
 
@@ -210,8 +216,7 @@ function Draw ()
     background1.Draw(ctx);
     
     ctx.drawImage(background2.img, 0, 0, background2.width, background2.height);
-    //ctx.drawImage(goalImg, 0, 0, goalImg.width, goalImg.height,  );
-    //background2.Draw(ctx);
+
     ctx.restore();
 
     goalL.Draw(ctx);
@@ -222,14 +227,18 @@ function Draw ()
     player2.Draw(ctx);
 
     //Draw coins
-    for(var i = 0; i<coins.length; i++){
-        coins[i].Draw(ctx);
-    }
+//    for(var i = 0; i<coins.length; i++){
+//        coins[i].Draw(ctx);
+//    }
+    ctx.save();
+    ctx.restore();
+    ball.Draw(ctx);
     
     //Draw Score
-    ctx.fillStyle = "black";
-    ctx.font = "20px Comic Sans MS";
-    ctx.fillText('Score: ' + player1.score + " - " + player2.score, 650, 24);
+    ctx.fillStyle = "white";
+    ctx.font = "30px Comic Sans MS";
+    ctx.fillText(player1.score, 340, 210);
+    ctx.fillText(player2.score, 440, 210);
 
 
     // draw the FPS
@@ -255,16 +264,24 @@ function DrawWorld (world)
     ctx.restore();
 }
 
-function DeleteCoin(coin){
+//function DeleteCoin(coin){
+//
+////    var found = false;
+////    while(!found && i<coins.length){
+////        if(coins[i] == coin){
+////            found = true;
+////            coins.splice(i, 1);
+////        }else{
+////            i++;
+////        }
+////
+////    }
+//}
 
-    var found = false;
-    while(!found && i<coins.length){
-        if(coins[i] == coin){
-            found = true;
-            coins.splice(i, 1);
-        }else{
-            i++;
-        }
-
-    }
+function RestartGoal(){
+    
+    ball.position.x = 450;
+    ball.isGoal = false;
+    player1.position.x = 200;
+    player2.position.y = 500;
 }

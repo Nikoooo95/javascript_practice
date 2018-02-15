@@ -3,8 +3,8 @@ function NewPlayer(x, y, image, type) {
 return {
 	type: type,
 	position:{x: x, y: y},
-	width: 0.75,
-	height: 0.55,
+	width: 0.37,
+	height: 0.27,
 
 
 	isGoingLeft: false,
@@ -46,8 +46,8 @@ return {
 		Draw: function(ctx){
 			ctx.drawImage(this.img, this.actualX, this.actualY, 
 				this.frameWidth, this.frameHeight, 
-				-this.frameWidth/4, -this.frameHeight/4,
-				this.frameWidth/2, this.frameHeight/2);
+				-this.frameWidth/8, -this.frameHeight/8,
+				this.frameWidth/4, this.frameHeight/4);
 		}
 	},
 
