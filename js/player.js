@@ -128,9 +128,19 @@ return {
 			return false;
 		}
 		this.moveUp = true;
-	}
+	},
 
-    
+    Restart: function(){
+        moveLeft: false;
+        moveRight: false;
+        moveUp: false;
+        canJump: false; 
+        this.position.x = 0;
+        this.position.y = 200;
+        ctx.restore();
+        
+       
+    }
 
 
 }

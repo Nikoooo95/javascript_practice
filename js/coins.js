@@ -1,6 +1,6 @@
 function NewCoin(options) {
 	return {
-		type: 'coin',
+		type: options.type,
 		width: 0.2,
 		height: 0.2,
 		position: {x: options.x, y: options.y},
@@ -12,14 +12,13 @@ function NewCoin(options) {
         img: options.img,
 
 		physicsInfo: {
-			density: 100000.0,
-            friction: 100000,
-			fixedRotation: true,
-			linearDamping: 100000.0,
-            angularDamping: 10000.0,
-            restitution: 10000.0,
-			type: b2Body.b2_dynamicBody
-		},
+            density: 1,
+            fixedRotation: true,
+            linearDamping: 1,
+            user_data: player1,
+            type: b2Body.b2_dynamicBody,
+            restitution: 0.0
+	   },
 
 		body: null,
 
@@ -37,12 +36,13 @@ function NewCoin(options) {
            var bodyPosition = this.body.GetPosition();
 			var posX = bodyPosition.x * scale;
 			var posY = Math.abs((bodyPosition.y * scale) - ctx.canvas.height);
-			
+			var bodyRotation = this.body.GetAngle();
+            
 			ctx.save();
 			
 			ctx.translate(posX, posY);
 			ctx.scale(this.imgScale, this.imgScale);
-			
+			ctx.rotate(-bodyRotation);
 			ctx.drawImage(this.img,
 				-this.width * scale*2,
 				-this.height * scale*2,

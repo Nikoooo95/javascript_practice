@@ -94,7 +94,7 @@ function Start(){
 
     //player.Start();
 
-    ball = NewCoin({x: 300, y: 160, score: 1, img: ballImg});
+    ball = NewCoin({x: 300, y: 160, score: 1, img: ballImg, type: 'ball'});
     ball.Start();
 
     
@@ -180,15 +180,6 @@ function Update ()
     player1.Update(deltaTime);
     player2.Update(deltaTime);
     ball.Update(deltaTime);
-
-    //Update Coins
-//    for(var i = 0; i<coins.length; i++){
-//        coins[i].Update(deltaTime);
-//        if(coins[i].toDelete){
-//            world.DestroyBody(coins[i].body);
-//            coins.splice(i, 1);
-//        }
-//    }
     
     if(ball.isGoal == true){
         RestartGoal();
@@ -198,38 +189,22 @@ function Update ()
     
 }
 
-function Draw ()
-{
-    // clean the canvas
+function Draw (){
+    
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // draw the background
-    DrawBackground();
-
-    // draw the world
     DrawWorld(world);
-
-    /*for(var i = 0; i<floors.length; i++){
-        floors[i].Draw(ctx);
-    }*/
-
-    background1.Draw(ctx);
+    DrawBackground();
     
-    ctx.drawImage(background2.img, 0, 0, background2.width, background2.height);
-
     ctx.restore();
 
     goalL.Draw(ctx);
     goalR.Draw(ctx);
     floor.Draw(ctx);
-    //Draw the player
+
     player1.Draw(ctx);
     player2.Draw(ctx);
 
-    //Draw coins
-//    for(var i = 0; i<coins.length; i++){
-//        coins[i].Draw(ctx);
-//    }
     ctx.save();
     ctx.restore();
     ball.Draw(ctx);
@@ -240,7 +215,6 @@ function Draw ()
     ctx.fillText(player1.score, 340, 210);
     ctx.fillText(player2.score, 440, 210);
 
-
     // draw the FPS
     ctx.fillStyle = "black";
     ctx.font = "10px Arial";
@@ -249,14 +223,13 @@ function Draw ()
     ctx.fillText('total bodys: ' + world.GetBodyCount(), 10, 30);
 }
 
-function DrawBackground ()
-{
-    // background
+function DrawBackground (){
+background1.Draw(ctx);
+    
+    ctx.drawImage(background2.img, 0, 0, background2.width, background2.height);
 }
 
-function DrawWorld (world)
-{
-    // Transform the canvas coordinates to cartesias coordinates
+function DrawWorld (world){
     ctx.save();
     ctx.translate(0, canvas.height);
     ctx.scale(1, -1);
@@ -264,24 +237,11 @@ function DrawWorld (world)
     ctx.restore();
 }
 
-//function DeleteCoin(coin){
-//
-////    var found = false;
-////    while(!found && i<coins.length){
-////        if(coins[i] == coin){
-////            found = true;
-////            coins.splice(i, 1);
-////        }else{
-////            i++;
-////        }
-////
-////    }
-//}
 
 function RestartGoal(){
-    
+    console.log("llego");
     ball.position.x = 450;
     ball.isGoal = false;
-    player1.position.x = 200;
-    player2.position.y = 500;
+    player1.Restart();
+    player2.Restart();
 }

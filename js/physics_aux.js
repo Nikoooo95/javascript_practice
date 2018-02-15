@@ -121,11 +121,11 @@ function CreateWorld (ctx, gravity)
 
     // create the surface (an static object)
     // left wall
-    //CreateBox(world, 0, 1, .1, 8, {type : b2Body.b2_staticBody});
+    CreateBox(world, 0, 1, .1, 8, {type : b2Body.b2_staticBody});
     // down wall
     CreateBox(world, 4, 0, 4, .1, {type : b2Body.b2_staticBody});
     // right wall
-
+    CreateBox(world, 8, 1, .1, 8, {type : b2Body.b2_staticBody});
     // up wall
     //CreateBox(world, 4, 8, 4, .1, {type : b2Body.b2_staticBody});
 
@@ -143,26 +143,26 @@ function OnContactDetected (contact)
     if(a != null && b != null && 
         typeof(a.type) !== 'undefined' &&
         typeof(b.type) !== 'undefined'){
-        console.log("Contacto! " + a.type + " + " + b.type);
-        if((a.type == "goalR" && b.type == "coin") ||
-            (b.type == "goalR" && a.type == "coin")){
+        //console.log("Contacto! " + a.type + " + " + b.type);
+        if((a.type == "goalR" && b.type == "ball") ||
+            (b.type == "goalR" && a.type == "ball")){
 
             //Collect
-            console.log("Contacto! " + a.type + " + " + b.type);
-            var coin = (a.type == "coin") ? a : b;
-            player2.score += coin.score;
-            coin.isGoal = true;
+            //console.log("Contacto! " + a.type + " + " + b.type);
+            var ballTemp = (a.type == "ball") ? a : b;
+            player2.score += ballTemp.score;
+            ballTemp.isGoal = true;
             //Delete
             //coin.toDelete = true;
         }
         
-        if((a.type == "goalL" && b.type == "coin") ||
-            (b.type == "goalR" && a.type == "coin")){
+        if((a.type == "goalL" && b.type == "ball") ||
+            (b.type == "goalL" && a.type == "ball")){
             //Collect
-            console.log("Contacto! " + a.type + " + " + b.type);
-            var coin = (a.type == "coin") ? a : b;
-            player1.score += coin.score;
-            coin.isGoal = true;
+            //console.log("Contacto! " + a.type + " + " + b.type);
+            var ballTemp = (a.type == "ball") ? a : b;
+            player1.score += ballTemp.score;
+            ballTemp.isGoal = true;
             //Delete
             //coin.toDelete = true;
         }
