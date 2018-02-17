@@ -10,9 +10,9 @@ function NewPlayer(options) {
         isGoingLeft: false,
 
         //movement Attributes
-        maxHorizontalVel: 2,
-        maxVerticalVel: 4,
-        jumpForce: 6,
+        maxHorizontalVel: 4,
+        maxVerticalVel: 6,
+        jumpForce: 4,
 
         moveLeft: false,
         moveRight: false,
@@ -20,7 +20,8 @@ function NewPlayer(options) {
 
         canJump: false,
         bodyInit: null,
-
+        power: 0,
+        isPowered: false,
         score: 0,
     img: options.img,
         animation:{
@@ -78,23 +79,31 @@ function NewPlayer(options) {
 
         Update: function(deltaTime){
             this.animation.Update(deltaTime);
+            if(this.isPowered == false){
+                    if(this.moveRight){
+                    this.ApplyVelocity(new b2Vec2(1, 0));
+                    this.moveRight = false;
+                    this.isGoingLeft = false;
 
-            if(this.moveRight){
-                this.ApplyVelocity(new b2Vec2(1, 0));
-                this.moveRight = false;
-                this.isGoingLeft = false;
+                }
+
+                if(this.moveLeft){
+                    this.ApplyVelocity(new b2Vec2(-1, 0));
+                    this.moveLeft = false;
+                    this.isGoingLeft = true;
+
+                }
+
+                if(this.moveUp){
+                    this.ApplyVelocity(new b2Vec2(0, this.jumpForce));
+                    this.moveUp = false;
+
+                }
+            }else{
+                this.Power();
             }
 
-            if(this.moveLeft){
-                this.ApplyVelocity(new b2Vec2(-1, 0));
-                this.moveLeft = false;
-                this.isGoingLeft = true;
-            }
-
-            if(this.moveUp){
-                this.ApplyVelocity(new b2Vec2(0, this.jumpForce));
-                this.moveUp = false;
-            }
+            
         },
 
         Draw: function(ctx){
@@ -140,6 +149,7 @@ function NewPlayer(options) {
             moveRight: false;
             moveUp: false;
             canJump: false; 
+            this.power = 0;
             this.body.GetWorld().DestroyBody(this.body);
             this.body = CreateBox(world, 
                 this.position.x / scale, this.position.y / scale,
@@ -150,8 +160,34 @@ function NewPlayer(options) {
             if(this.type == 'player2'){
                 this.isGoingLeft = true;
             }
-        
             ctx.restore();
+        },
+        
+        Power: function(){
+            this.isPowered = true;
+                if(this.moveRight){
+                    this.ApplyVelocity(new b2Vec2(4, 0));
+                    this.moveRight = false;
+                    this.isGoingLeft = false;
+                }
+
+                if(this.moveLeft){
+                    this.ApplyVelocity(new b2Vec2(-4, 0));
+                    this.moveLeft = false;
+                    this.isGoingLeft = true;
+
+                }
+
+                if(this.moveUp){
+                    this.ApplyVelocity(new b2Vec2(0, this.jumpForce*3));
+                    this.moveUp = false;
+                }
+                this.power--;
+            if(this.power <= 0){
+                this.isPowered = false;
+                this.power = 0;
+            }
+             
         }
     }
 }

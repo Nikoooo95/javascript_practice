@@ -13,10 +13,11 @@ var time = 0,
     acumDelta = 0;
 
 //images references
-var player1Img, player2Img, coinImg, floorImg, background1Img, background2Img, goalImg, ballImg;
+var player1Img, player2Img, coinImg, floorImg, background1Img, background2Img, goalImg, ballImg, gameOverImg;
 
 var player1, player2, floor, background1, background2, goalL, goalR, ball;
 
+var power1, power2;
 
 var coins = [];
 var sounds={
@@ -28,9 +29,10 @@ var sounds={
 
 var timer;
 var compareDate;
-var matchDurationInMinutes = 4;
+var matchDurationInMinutes = 1;
 var seconds;
 var minutes;
+var gameOver = false;
 
 function Init ()
 {
@@ -56,6 +58,9 @@ function Init ()
         background2Img = new Image();
         background2Img.src = "./media/background2.png";
         
+        gameOverImg = new Image();
+        gameOverImg.src = "./media/gameover.png";
+        
         goalImg = new Image();
         goalImg.src = "./media/goal.png";
         
@@ -70,6 +75,8 @@ function Init ()
         
         player2Img = new Image();
         player2Img.src = "./media/car2.png";
+        
+        
         
         sounds.crowd = document.getElementById('crowd');
         sounds.goal = document.getElementById('goal');
@@ -126,6 +133,8 @@ function Start(){
    
     compareDate.setDate(compareDate.getDate() + (matchDurationInMinutes/1440));
     sounds.crowd.play();
+    power1 = 0;
+    power = 0;
         // first call to the game loop
     Loop();
 
@@ -171,30 +180,44 @@ function Update ()
     world.ClearForces();
     
     
-    
-    // player logic
+    if(gameOver == false){
+        // player logic
     if(input.isKeyPressed(KEY_LEFT)){
         player2.moveLeft = true;
+        Powerized(player2);
     }
 
     if(input.isKeyPressed(KEY_RIGHT)){
         player2.moveRight = true;
+        Powerized(player2);
     }
 
     if(input.isKeyPressed(KEY_UP)){
         player2.Jump();
+            Powerized(player2);
     }
     
     if(input.isKeyPressed(KEY_D)){
         player1.moveRight = true;
+        Powerized(player1);
     }
     
     if(input.isKeyPressed(KEY_A)){
         player1.moveLeft = true;
+        Powerized(player1);
     }
     
     if(input.isKeyPressed(KEY_W)){
         player1.Jump();
+        Powerized(player1);
+    }
+    
+    if(input.isKeyPressed(KEY_SPACE) && player1.power>=300){
+        player1.Power();
+    }
+    
+    if(input.isKeyPressed(KEY_INTRO) && player2.power>=300){
+        player2.Power();
     }
 
     background1.Update(deltaTime);
@@ -213,13 +236,26 @@ function Update ()
 
     Clock(compareDate);
     
+    if(player1.socre >= 10 || player2.score >= 10 || (minutes <= 0 && seconds <= 0) ){
+        gameOver=true;
+    }
+
+    }
 }
+
+function Powerized(player){
+    if(player.power<300 && player.isPowered == false){
+        player.power+=0.5;
+    }
+}
+
 
 function Draw (){
     
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     DrawWorld(world);
+    
     DrawBackground();
     
     ctx.restore();
@@ -253,6 +289,25 @@ function Draw (){
     ctx.fillStyle = "white";
     ctx.font = "25px Arial";
     ctx.fillText(minutes + '   : ' + seconds, 365, 132);
+    ctx.restore();
+    ctx.save();
+    ctx.fillStyle = "green";
+    ctx.fillRect(40, 20, player1.power, 25);
+    ctx.scale(-1, 1);
+    ctx.fillRect(-760, 20, player2.power, 25);
+    ctx.restore();
+    
+    if(gameOver){
+        ctx.drawImage(gameOverImg, 0, 0, 599, 480, 100, 0, 599, 450);
+        ctx.fillStyle = "black";
+        ctx.font = "55px Comic Sans MS";
+        ctx.fillText(player1.score + "             " + player2.score, 260, 250);
+        //ctx.fillText(, 440, 210);
+        if(input.isKeyPressed(KEY_SPACE)){
+            window.location.reload();
+        }
+    }
+
 }
 
 function DrawBackground (){
