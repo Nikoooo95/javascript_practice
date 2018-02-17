@@ -42,5 +42,6 @@ function NewGoal (options) {
 			ctx.restore();
            
 		}
+
 	}
 }

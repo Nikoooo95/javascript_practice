@@ -10,7 +10,7 @@ function NewBackground (options) {
         
 		Update: function(deltaTime){
 			if(this.type == 'background1'){
-                this.angle = (this.angle - 0.05) % 360;
+                this.angle = (this.angle - 0.03) % 360;
             }
 		},
 

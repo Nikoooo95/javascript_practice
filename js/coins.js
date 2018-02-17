@@ -10,7 +10,8 @@ function NewCoin(options) {
 
         isGoal: false,
         img: options.img,
-
+        hitted: false,
+        
 		physicsInfo: {
             density: 1,
             fixedRotation: true,
@@ -48,6 +49,16 @@ function NewCoin(options) {
 				-this.height * scale*2,
 				this.width * scale * 4 , this.height * scale * 4 );
 			ctx.restore();
-		}
+		},
+        
+        Restart: function(){
+            isGoal = false;
+            this.body.GetWorld().DestroyBody(this.body);
+            this.body = CreateBall(world, this.position.x/scale, this.position.y / scale,
+				this.width, this.height, this.physicsInfo);
+			this.body.SetUserData(this);
+        
+            ctx.restore();
+        }
 	}
 }

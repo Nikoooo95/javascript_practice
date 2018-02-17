@@ -27,7 +27,7 @@ function NewFloor (options) {
 		},
 
 		Draw: function(ctx){
-			var bodyPosition = this.body.GetPosition();
+			/*var bodyPosition = this.body.GetPosition();
 			var posX = bodyPosition.x * scale;
 			var posY = Math.abs((bodyPosition.y * scale) - ctx.canvas.height);
 			
@@ -35,11 +35,11 @@ function NewFloor (options) {
 			
 			ctx.translate(posX, posY);
 			ctx.scale(this.imgScale, this.imgScale);
-			
+			*/
 			ctx.drawImage(this.img,
-				-this.width * scale,
-				-this.height * scale,
-				this.width * scale * 2, this.height * scale * 2);
+				0,
+				0,
+				this.width * scale * 2, this.height * scale * 4, 0, 414, this.width * scale* 2, this.height * scale * 2 );
 			ctx.restore();
 		}
 	}

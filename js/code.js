@@ -19,7 +19,18 @@ var player1, player2, floor, background1, background2, goalL, goalR, ball;
 
 
 var coins = [];
+var sounds={
+    crowd: null,
+    goal: null,
+    hit: null
+}
 //var floors = [];
+
+var timer;
+var compareDate;
+var matchDurationInMinutes = 4;
+var seconds;
+var minutes;
 
 function Init ()
 {
@@ -60,10 +71,15 @@ function Init ()
         player2Img = new Image();
         player2Img.src = "./media/car2.png";
         
+        sounds.crowd = document.getElementById('crowd');
+        sounds.goal = document.getElementById('goal');
+        sounds.hit = document.getElementById('hit');
         
         player2Img.onload = Start();
         
     }
+    
+    
 }
 
 function Start(){
@@ -94,17 +110,22 @@ function Start(){
 
     //player.Start();
 
-    ball = NewCoin({x: 300, y: 160, score: 1, img: ballImg, type: 'ball'});
+    ball = NewCoin({x: 400, y: 200, score: 1, img: ballImg, type: 'ball'});
     ball.Start();
 
     
     
-    this.player1 = NewPlayer(200, 200, player1Img, "player1");
-    this.player1.Start();
+    this.player1 = NewPlayer({x: 200, y: 200, img: player1Img, type: 'player1'});
     
-    this.player2 = NewPlayer(500, 200, player2Img, "player2");
-    this.player2.Start();
+    
+    this.player2 = NewPlayer({x: 645, y: 200, img: player2Img, type: 'player2'});
     this.player2.moveLeft = true;
+    this.player1.Start();
+    this.player2.Start();
+    compareDate = new Date();
+   
+    compareDate.setDate(compareDate.getDate() + (matchDurationInMinutes/1440));
+    sounds.crowd.play();
         // first call to the game loop
     Loop();
 
@@ -184,8 +205,13 @@ function Update ()
     if(ball.isGoal == true){
         RestartGoal();
     }
+    if(ball.hitted ==true){
+        ball.hitted=false;
+        //sounds.hit.currentTime = 0;
+        sounds.hit.play();
+    }
 
-
+    Clock(compareDate);
     
 }
 
@@ -202,6 +228,8 @@ function Draw (){
     goalR.Draw(ctx);
     floor.Draw(ctx);
 
+    ctx.save();
+    ctx.restore();
     player1.Draw(ctx);
     player2.Draw(ctx);
 
@@ -221,11 +249,14 @@ function Draw (){
     ctx.fillText('FPS: ' + FPS, 10, 10);
     ctx.fillText('deltaTime: ' + Math.round(1 / deltaTime), 10, 20);
     ctx.fillText('total bodys: ' + world.GetBodyCount(), 10, 30);
+    
+    ctx.fillStyle = "white";
+    ctx.font = "25px Arial";
+    ctx.fillText(minutes + '   : ' + seconds, 365, 132);
 }
 
 function DrawBackground (){
-background1.Draw(ctx);
-    
+    background1.Draw(ctx);
     ctx.drawImage(background2.img, 0, 0, background2.width, background2.height);
 }
 
@@ -239,9 +270,32 @@ function DrawWorld (world){
 
 
 function RestartGoal(){
-    console.log("llego");
-    ball.position.x = 450;
+    //sounds.goal.Play();
+    sounds.goal.play();
     ball.isGoal = false;
     player1.Restart();
     player2.Restart();
+    ball.Restart();
+}
+
+function Clock(toDate){
+
+    //console.log(toDate);
+    var dataEntered = toDate;
+    var now = new Date();
+    var difference = dataEntered.getTime() - now.getTime();
+   /* if(difference <= 0){
+        //TO-DO
+    }else{*/
+        seconds = Math.floor(difference/1000);
+        minutes = Math.floor(seconds/60);
+        
+        seconds %= 60;
+        minutes %=60;
+
+    ctx.save();
+ctx.restore();
+    
+        
+   // }
 }

@@ -166,8 +166,22 @@ function OnContactDetected (contact)
             //Delete
             //coin.toDelete = true;
         }
+        
+        
+        /*if(((a.type == "player1" && b.type == "ball") ||
+            (b.type == "player1" && a.type == "ball")) || 
+           ((a.type == "player2" && b.type == "ball") ||
+            (b.type == "player2" && a.type == "ball"))){*/
+            
+            if(a.type == "ball" || b.type == "ball"){
+                var ballTemp = (a.type == "ball") ? a : b;
+                ballTemp.hitted = true;
+            }
+             
+        }
+            
     }
-}
+
 
 function PreparePhysics (ctx)
 {
