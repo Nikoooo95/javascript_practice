@@ -1,14 +1,23 @@
-// key events
+/*
+ * Key Events & Inputs
+ * Copyright © 2018+ Nicolás Tapia Sanz
+ *
+ * Distributed under the Boost Software License, version  1.0
+ * See documents/LICENSE.TXT or www.boost.org/LICENSE_1_0.txt
+ *
+ * nic.tap95@gmail.com
+ */
 var lastPress = null;
 
+//Conjunto de teclas que se hacen uso en el juego.
 var KEY_LEFT  = 37, KEY_A = 65;
 var KEY_UP    = 38, KEY_W = 87;
 var KEY_RIGHT = 39, KEY_D = 68;
 var KEY_DOWN  = 40, KEY_S = 83;
-var KEY_PAUSE = 19;
 var KEY_SPACE = 32;
 var KEY_INTRO = 13;
 
+//CONTROLADOR DE INPUTS
 var input = {
     mouse: { x: 0, y: 0 },
     keyboard: {
@@ -32,8 +41,8 @@ var input = {
     }
 };
 
-function SetupKeyboardEvents ()
-{
+//EVENTOS DE TECLADO
+function SetupKeyboardEvents (){
     AddEvent(document, "keydown", function (e) {
         input.keyboard[e.keyCode] = true;
     } );
@@ -43,8 +52,7 @@ function SetupKeyboardEvents ()
         input.keyboard[e.keyCode] = false;
     } );
 
-    function AddEvent (element, eventName, func)
-    {
+    function AddEvent (element, eventName, func){
         if (element.addEventListener)
             element.addEventListener(eventName, func, false);
         else if (element.attachEvent)
@@ -52,24 +60,23 @@ function SetupKeyboardEvents ()
     }
 }
 
-function SetupMouseEvents ()
-{
+//EVENTOS DE MOUSE
+function SetupMouseEvents (){
     // mouse click event
     canvas.addEventListener("mousedown", MouseDown, false);
     // mouse move event
     canvas.addEventListener("mousemove", MouseMove, false);
 }
 
-function MouseDown (event)
-{
+//EVENTOS DE CLICK
+function MouseDown (event){
     var rect = canvas.getBoundingClientRect();
     var clickX = event.clientX - rect.left;
     var clickY = event.clientY - rect.top;
-    //console.log("MouseDown: " + "X=" + clickX + ", Y=" + clickY);
 }
 
-function MouseMove (event)
-{
+//EVENTOS DE MOVIMIENTO DE MOUSE
+function MouseMove (event){
     var rect = canvas.getBoundingClientRect();
     input.mouse.x = event.clientX - rect.left;
     input.mouse.y = event.clientY - rect.top;

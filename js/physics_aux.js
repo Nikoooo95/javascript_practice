@@ -1,7 +1,13 @@
-// auxiliar code for working with Box2D
-// requires jQuery
+/*
+ * Auxiliar code for working with Box2D
+ * Requires jQuery
+ *
+ * Distributed under the Boost Software License, version  1.0
+ * See documents/LICENSE.TXT or www.boost.org/LICENSE_1_0.txt
+ *
+ * 
+ */
 
-// Box2D lib
 var b2Vec2 = Box2D.Common.Math.b2Vec2
     ,   b2AABB = Box2D.Collision.b2AABB
     ,   b2BodyDef = Box2D.Dynamics.b2BodyDef
@@ -119,23 +125,20 @@ function CreateWorld (ctx, gravity)
 
     world.SetDebugDraw(debugDraw);
 
-    // create the surface (an static object)
+    // BORDES Y LIMITES DEL ESPACIO
     // left wall
     CreateBox(world, 0, 1, .1, 8, {type : b2Body.b2_staticBody});
     // down wall
     CreateBox(world, 4, 0, 4, .1, {type : b2Body.b2_staticBody});
     // right wall
     CreateBox(world, 8, 1, .1, 8, {type : b2Body.b2_staticBody});
-    // up wall
-    //CreateBox(world, 4, 8, 4, .1, {type : b2Body.b2_staticBody});
 
-    // obstacles
 
     return world;
 }
 
-function OnContactDetected (contact)
-{ 
+//CONTROL DE COLISIONES
+function OnContactDetected (contact){ 
 
     var a = contact.GetFixtureA().GetBody().GetUserData();
     var b = contact.GetFixtureB().GetBody().GetUserData();
@@ -143,44 +146,32 @@ function OnContactDetected (contact)
     if(a != null && b != null && 
         typeof(a.type) !== 'undefined' &&
         typeof(b.type) !== 'undefined'){
-        //console.log("Contacto! " + a.type + " + " + b.type);
+
+        //EN CASO DE QUE SE HAYA MARCADO GOL EN LA PORTERÍA DERECHA...
         if((a.type == "goalR" && b.type == "ball") ||
             (b.type == "goalR" && a.type == "ball")){
-
-            //Collect
-            //console.log("Contacto! " + a.type + " + " + b.type);
             var ballTemp = (a.type == "ball") ? a : b;
             player2.score += ballTemp.score;
             ballTemp.isGoal = true;
-            //Delete
-            //coin.toDelete = true;
         }
-        
+
+        //EN CASO DE QUE SE HAYA MARCADO GOL EN LA PORTERÍA IZQUIERDA...
         if((a.type == "goalL" && b.type == "ball") ||
             (b.type == "goalL" && a.type == "ball")){
-            //Collect
-            //console.log("Contacto! " + a.type + " + " + b.type);
             var ballTemp = (a.type == "ball") ? a : b;
             player1.score += ballTemp.score;
             ballTemp.isGoal = true;
-            //Delete
-            //coin.toDelete = true;
         }
-        
-        
-        /*if(((a.type == "player1" && b.type == "ball") ||
-            (b.type == "player1" && a.type == "ball")) || 
-           ((a.type == "player2" && b.type == "ball") ||
-            (b.type == "player2" && a.type == "ball"))){*/
-            
-            if(a.type == "ball" || b.type == "ball"){
-                var ballTemp = (a.type == "ball") ? a : b;
-                ballTemp.hitted = true;
-            }
+
+        //EN CASO DE QUE LA PELOTA HAYA GOLPEADO CON ALGO
+        if(a.type == "ball" || b.type == "ball"){
+            var ballTemp = (a.type == "ball") ? a : b;
+            ballTemp.hitted = true;
+        }
              
-        }
-            
     }
+            
+}
 
 
 function PreparePhysics (ctx)
@@ -191,12 +182,4 @@ function PreparePhysics (ctx)
     CreateWorld(ctx, gravity);
 
     b2ContactListener.prototype.BeginContact = OnContactDetected;
-}
-
-
-function ResetGame (coin)
-{
-    coin.position.x = 400;
-    coin.position.y = 160;
-    
 }

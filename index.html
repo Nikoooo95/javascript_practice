@@ -3,24 +3,30 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="description" content="Rocket League 2D - Practica para la asignatura de ANIMACIÓN 3D (Javascript)- ESNE 2017/2018. Desarrollado por Nicolás Tapia.">
+    <meta name="copyright" content="Nicolás Tapia">
     <title>Rocket League 2D - Nicolas Tapia Sanz</title>
     <link href="css/style.css" type="text/css" rel="stylesheet" media="">
+    <!-- Javascript codes -->
     <script src="js/jquery-3.2.1.js"></script>
     <script src="js/Box2D.js"></script>
     <script src="js/physics_aux.js"></script>
     <script src="js/input.js"></script>
     <script src="js/code.js"></script>
     <script src="js/player.js"></script>
-    <script src="js/coins.js"></script>
+    <script src="js/ball.js"></script>
     <script src="js/floor.js"></script>
     <script src="js/backgrounds.js"></script>
     <script src="js/goal.js"></script>
+    
 </head>
 
 <body onload="Init();">
+    <!-- Sonidos del juego -->
     <audio id="crowd" src="audio/crowd.wav" style="display: none;"></audio>
     <audio id="goal" src="audio/goal.wav" style="display: none;"></audio>
     <audio id="hit" src="audio/hit.wav" style="display: none;"></audio>
+    <!-- Canvas -->
     <div id="container">
         <canvas id="my_canvas" width="800" height="450"></canvas>
     </div>
