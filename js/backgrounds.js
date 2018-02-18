@@ -38,6 +38,5 @@ function NewBackground (options) {
 			ctx.restore();
 		},
         
-        
 	}
 }

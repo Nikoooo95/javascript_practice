@@ -182,8 +182,8 @@ function Loop (){
     Draw();
 }
 
-function Update ()
-{
+function Update (){
+    
     input.update();
 
     world.Step(deltaTime, 8, 3);
@@ -255,7 +255,7 @@ function Update ()
         Clock(compareDate);
 
         //Comprobación del fin de juego
-        if(player1.socre >= 10 || player2.score >= 10 || (minutes <= 0 && seconds <= 0) ){
+        if(player1.score >= 10 || player2.score >= 10 || (minutes <= 0 && seconds <= 0) ){
             gameOver=true;
         }
 
